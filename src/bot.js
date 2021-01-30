@@ -111,7 +111,7 @@ client.on("message", async (msg) => {
 
             // Avatar tools
             case "avatar":
-                console.log("command activated");
+                // console.log("command activated");
                 var username = msg.author.username;
                 var avatarURL = msg.author.avatarURL();
                 if (args[0]) {
@@ -125,8 +125,8 @@ client.on("message", async (msg) => {
                         return;
                     }
                     const user = msg.guild.members.cache.get(msg.mentions.members.first().user.id || args[0]);
-                    console.log(args[0]);
-                    console.log(user);
+                    // console.log(args[0]);
+                    // console.log(user);
                     if (user) {
                         username = user.user.username;
                         avatarURL = user.user.avatarURL();
