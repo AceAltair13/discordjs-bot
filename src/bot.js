@@ -37,17 +37,17 @@ client.on("message", async (msg) => {
             // Coinhunt
             case "coinhunt":
                 if (args[0] === "help" || !args[0]) {
-                    msg.channel.send("Welcome to coinhunt! This game is currently in development. ◀️ 🔼 🔽 ▶️");
+                    msg.channel.send("Welcome to coinhunt! This game is currently under development 👷.");
                 } else {
                     switch (args[0]) {
                         case "play":
-                            msg.channel.send("This game is currently in developement.");
+                            msg.channel.send("This game is currently under developement 👷.");
                             break;
                         case "highscore":
                         case "hs":
                         case "leaderboard":
                         case "lb":
-                            msg.channel.send("This feature is currently in development.");
+                            msg.channel.send("This feature is currently in development 👷.");
                             break;
                     }
                 };
@@ -84,11 +84,13 @@ client.on("message", async (msg) => {
                     .setColor(getRandomColor())
                     .setTitle("Help")
                     .setDescription("**Syntax**\n`$<command> *args`")
-                    .addField("Coinhunt", "`$coinhunt`", true)
-                    .addField("Cleverbot", "`$chat`", true)
-                    .addField("Choice", "`$choice`", true)
-                    .addField("Avatar", "`$avatar`", true)
-                    .setFooter("New commands to be added soon!")
+                    // .addField("Coinhunt", "`$coinhunt`", true)
+                    // .addField("Cleverbot", "`$chat`", true)
+                    // .addField("Choice", "`$choice`", true)
+                    // .addField("Avatar", "`$avatar`", true)
+                    // .addField("Ping", "`$ping`", true)
+                    .addField("Available Commands", "`coinhunt`, `chat`, `choice`, `avatar`, `ping`")
+                    .setFooter("New commands will be added soon!")
                     .setThumbnail("https://i.imgur.com/7qttfnm.gif");
                 // msg.channel.send("```Syntax:\n=======\n$<command> <optional args>```");
                 msg.channel.send(helpEmbed);
@@ -125,8 +127,6 @@ client.on("message", async (msg) => {
                         return;
                     }
                     const user = msg.guild.members.cache.get(msg.mentions.members.first().user.id || args[0]);
-                    // console.log(args[0]);
-                    // console.log(user);
                     if (user) {
                         username = user.user.username;
                         avatarURL = user.user.avatarURL();
@@ -146,11 +146,12 @@ client.on("message", async (msg) => {
             case "ping":
                 msg.channel.send("Pinging...")
                 .then( (m) => {
+                    m.delete();
                     const pingEmbed = new MessageEmbed()
                     .setTitle((m.createdTimestamp - msg.createdTimestamp) + "ms")
                     .setColor(getRandomColor())
-                    .setDescription(`API Latency: ${client.ws.ping}ms`)
-                    .setFooter("Pong 🏓");
+                    .setDescription("Pong 🏓")
+                    .setFooter(`API Latency: ${client.ws.ping}ms`);
                     msg.channel.send(pingEmbed);
                 });
                 break;
