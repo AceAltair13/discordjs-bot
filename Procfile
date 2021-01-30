@@ -1,1 +1,1 @@
-worker: npx run start
+worker: node ./src/bot.js
