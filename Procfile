@@ -1,1 +1,1 @@
-worker: npx run dev
+worker: npx run start
