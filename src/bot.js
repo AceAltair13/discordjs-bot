@@ -140,6 +140,20 @@ client.on("message", async (msg) => {
                     .setDescription(username)
                     .setImage(avatarURL);
                 msg.channel.send(avatarEmbed);
+                break;
+
+            // Ping
+            case "ping":
+                msg.channel.send("Pinging...")
+                .then( (m) => {
+                    const pingEmbed = new MessageEmbed()
+                    .setTitle((m.createdTimestamp - msg.createdTimestamp) + "ms")
+                    .setColor(getRandomColor())
+                    .setDescription(`API Latency: ${client.ws.ping}ms`)
+                    .setFooter("Pong 🏓");
+                    msg.channel.send(pingEmbed);
+                });
+                break;
         }
 
     }
