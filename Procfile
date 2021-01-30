@@ -1,0 +1,1 @@
+worker: npx run dev
