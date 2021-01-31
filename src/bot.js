@@ -1,11 +1,11 @@
 require("dotenv").config();
-// const EMOJIS = ('❌', '◀️', '🔼', '🔽', '▶️');
 
 function getRandomColor() {
     return '#' + (Math.random() * (1 << 24) | 0).toString(16);
 }
 
 const CHOICES = ["Yes 👍", "No 👎", "Probably 🤷", "Probably Not 🙇"];
+const BUTTONS = ['❌', '◀️', '🔼', '🔽', '▶️'];
 
 const {
     Client,
@@ -14,6 +14,7 @@ const {
 const client = new Client({
     partials: ['MESSAGE', 'REACTION'],
 });
+const coinhunt = require("./coinhunt");
 const PREFIX = "$";
 
 const cleverbot = require("cleverbot-free");
@@ -37,17 +38,25 @@ client.on("message", async (msg) => {
         switch (CMD_NAME.toLowerCase()) {
 
             // Empty Command
-            case "":
-                break;
+            // case "":
+            //     break;
 
             // Coinhunt
             case "coinhunt":
                 if (args[0] === "help" || !args[0]) {
-                    msg.channel.send("Welcome to coinhunt! This game is currently under development 👷.");
+                    const coinhuntEmbed = new MessageEmbed()
+                    .setColor(getRandomColor())
+                    .setTitle("CoinHunt")
+                    .addField("What is coinhunt?", "It is a small minigame where main objective is to collect coins in limited number of moves.\n[@] : Player\n[·] : Visited\n[○] : Coin\n[+] : Power-Ups (+5 Moves)\n[R] : Reveal-Shard")
+                    .addField("Arguments", "`play`\nStarts a game of coinhunt\n`highscore/hs`\nShows the user's highscore.\n`leaderboard/lb`\nDisplays the leaderboard.")
+                    .setFooter("A mini game where you try to collect all the coins in limited number of moves.")
+                    .setThumbnail("https://control.do/wp-content/uploads/2020/09/coin.gif");
+                    msg.channel.send(coinhuntEmbed);
                 } else {
                     switch (args[0]) {
                         case "play":
-                            msg.channel.send("This game is currently under developement 👷.");
+                            console.log("active");
+                            coinhunt(client, msg.channel.id, "```Loading...```", BUTTONS, msg.author.id);
                             break;
                         case "highscore":
                         case "hs":
