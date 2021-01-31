@@ -14,7 +14,7 @@ const {
 const client = new Client({
     partials: ['MESSAGE', 'REACTION'],
 });
-const PREFIX = "$$";
+const PREFIX = "$";
 
 const cleverbot = require("cleverbot-free");
 
