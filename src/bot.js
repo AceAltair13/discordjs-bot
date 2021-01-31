@@ -5,6 +5,8 @@ function getRandomColor() {
     return '#' + (Math.random() * (1 << 24) | 0).toString(16);
 }
 
+const CHOICES = ["Yes 👍", "No 👎", "Probably 🤷", "Probably Not 🙇"];
+
 const {
     Client,
     MessageEmbed,
@@ -12,7 +14,7 @@ const {
 const client = new Client({
     partials: ['MESSAGE', 'REACTION'],
 });
-const PREFIX = "$";
+const PREFIX = "$$";
 
 const cleverbot = require("cleverbot-free");
 
@@ -32,7 +34,11 @@ client.on("message", async (msg) => {
             .substring(PREFIX.length)
             .split(/\s+/);
 
-        switch (CMD_NAME) {
+        switch (CMD_NAME.toLowerCase()) {
+
+            // Empty Command
+            case "":
+                break;
 
             // Coinhunt
             case "coinhunt":
@@ -89,7 +95,7 @@ client.on("message", async (msg) => {
                     // .addField("Choice", "`$choice`", true)
                     // .addField("Avatar", "`$avatar`", true)
                     // .addField("Ping", "`$ping`", true)
-                    .addField("Available Commands", "`coinhunt`, `chat`, `choice`, `avatar`, `ping`")
+                    .addField("Available Commands", "`coinhunt`, `chat`, `choice`, `avatar`, `ping`, `ask`")
                     .setFooter("New commands will be added soon!")
                     .setThumbnail("https://i.imgur.com/7qttfnm.gif");
                 // msg.channel.send("```Syntax:\n=======\n$<command> <optional args>```");
@@ -154,6 +160,32 @@ client.on("message", async (msg) => {
                     .setFooter(`API Latency: ${client.ws.ping}ms`);
                     msg.channel.send(pingEmbed);
                 });
+                break;
+
+            // Ask
+            case "ask":
+                if(args[0]) {
+                    const len = args.length;
+                    if(new RegExp("^\\?+$").test(args.join(""))) {
+                        msg.channel.send("Don't just throw them ❔ at me, m8.");
+                    } else if(args[len-1] === "?" || args[len-1].charAt(args[len-1].length - 1) === "?") {
+                        msg.channel.send(CHOICES[Math.floor(Math.random() * CHOICES.length)]);
+                    } else {
+                        msg.channel.send("That doesn't look like a valid question, m8.");
+                    }
+                } else {
+                    const askEmbed = new MessageEmbed()
+                    .setColor(getRandomColor())
+                    .setTitle("Ask Bot")
+                    .setDescription("Usage\n`$ask <question>`")
+                    .setFooter("Bot replies to a Yes-No question.");
+                    msg.channel.send(askEmbed);
+                }
+                break;
+
+            // Default
+            default:
+                msg.channel.send("Mate you should check your command.");
                 break;
         }
 
