@@ -147,7 +147,7 @@ module.exports = async (client, id, senderID, arg) => {
                 } else {
                     if (re[0]) {
                         const highscore = re[0].maxscore;
-                        channel.send(`Your high score in CoinHunt is ${highscore}.`);
+                        channel.send(`Your high score in coinhunt is ${highscore}.`);
                     } else {
                         channel.send("You have not started playing yet!");
                     }

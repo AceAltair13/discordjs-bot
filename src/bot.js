@@ -4,7 +4,7 @@ function getRandomColor() {
     return '#' + (Math.random() * (1 << 24) | 0).toString(16);
 }
 
-const CHOICES = ["Yes 👍", "No 👎", "Probably 🤷", "Probably Not 🙇"];
+const CHOICES = ["Yes 👍", "No 👎", "Probably 🤷", "Probably Not 🙇", "Definitely! ✋", "Definitely Not! 🤞"];
 
 const {
     Client,
