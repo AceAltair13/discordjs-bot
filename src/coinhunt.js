@@ -57,7 +57,6 @@ function updateScore(senderID, userscore) {
             }
         }
     });
-    mongoose.connection.close();
 }
 
 const addReactionsAndStart = async (msg, reactions, senderID) => {
