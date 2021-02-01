@@ -5,7 +5,6 @@ function getRandomColor() {
 }
 
 const CHOICES = ["Yes 👍", "No 👎", "Probably 🤷", "Probably Not 🙇"];
-const BUTTONS = ['❌', '◀️', '🔼', '🔽', '▶️'];
 
 const {
     Client,
@@ -14,10 +13,9 @@ const {
 const client = new Client({
     partials: ['MESSAGE', 'REACTION'],
 });
+const cleverbot = require("cleverbot-free");
 const coinhunt = require("./coinhunt");
 const PREFIX = "$";
-
-const cleverbot = require("cleverbot-free");
 
 client.on("ready", () => {
     client.user.setActivity({
@@ -37,34 +35,21 @@ client.on("message", async (msg) => {
 
         switch (CMD_NAME.toLowerCase()) {
 
-            // Empty Command
-            // case "":
-            //     break;
-
             // Coinhunt
+            case "ch":
             case "coinhunt":
                 if (args[0] === "help" || !args[0]) {
                     const coinhuntEmbed = new MessageEmbed()
                     .setColor(getRandomColor())
                     .setTitle("CoinHunt")
-                    .addField("What is coinhunt?", "It is a small minigame where main objective is to collect coins in limited number of moves.\n[@] : Player\n[·] : Visited\n[○] : Coin\n[+] : Power-Ups (+5 Moves)\n[R] : Reveal-Shard")
-                    .addField("Arguments", "`play`\nStarts a game of coinhunt\n`highscore/hs`\nShows the user's highscore.\n`leaderboard/lb`\nDisplays the leaderboard.")
+                    .setDescription("Usage:\n`$coinhunt <args>`\n_or_\n`$ch <args>`")
+                    .addField("What is coinhunt?", "It is a small minigame where main objective is to collect coins in limited number of moves.\n```[@] : Player\n[·] : Visited\n[○] : Coin\n[+] : Power-Ups (+5 Moves)\n[R] : Reveal-Shard```")
+                    .addField("Arguments", "`play` _or_ `start`\nStarts a game of coinhunt\n`highscore/hs`\nShows the user's highscore.\n`leaderboard/lb`\nDisplays the leaderboard.")
                     .setFooter("A mini game where you try to collect all the coins in limited number of moves.")
                     .setThumbnail("https://control.do/wp-content/uploads/2020/09/coin.gif");
                     msg.channel.send(coinhuntEmbed);
                 } else {
-                    switch (args[0]) {
-                        case "play":
-                            console.log("active");
-                            coinhunt(client, msg.channel.id, "```Loading...```", BUTTONS, msg.author.id);
-                            break;
-                        case "highscore":
-                        case "hs":
-                        case "leaderboard":
-                        case "lb":
-                            msg.channel.send("This feature is currently in development 👷.");
-                            break;
-                    }
+                    coinhunt(client, msg.channel.id, msg.author.id, args[0].toLowerCase());
                 };
                 break;
 
@@ -99,15 +84,9 @@ client.on("message", async (msg) => {
                     .setColor(getRandomColor())
                     .setTitle("Help")
                     .setDescription("**Syntax**\n`$<command> *args`")
-                    // .addField("Coinhunt", "`$coinhunt`", true)
-                    // .addField("Cleverbot", "`$chat`", true)
-                    // .addField("Choice", "`$choice`", true)
-                    // .addField("Avatar", "`$avatar`", true)
-                    // .addField("Ping", "`$ping`", true)
                     .addField("Available Commands", "`coinhunt`, `chat`, `choice`, `avatar`, `ping`, `ask`")
                     .setFooter("New commands will be added soon!")
                     .setThumbnail("https://i.imgur.com/7qttfnm.gif");
-                // msg.channel.send("```Syntax:\n=======\n$<command> <optional args>```");
                 msg.channel.send(helpEmbed);
                 break;
 
