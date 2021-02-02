@@ -73,7 +73,7 @@ client.on("message", async (msg) => {
                     .setColor(getRandomColor())
                     .setTitle("Help")
                     .setDescription("**Syntax**\n`$<command> *args`")
-                    .addField("Available Commands", "`coinhunt`, `chat`, `choice`, `avatar`, `ping`, `ask`, `stacks`")
+                    .addField("Available Commands", "`coinhunt`, `chat`, `choice`, `avatar`, `ping`, `ask`, `stacks`, `joe`")
                     .setFooter("New commands will be added soon!")
                     .setThumbnail("https://i.imgur.com/7qttfnm.gif");
                 msg.channel.send(helpEmbed);
@@ -163,6 +163,11 @@ client.on("message", async (msg) => {
             case 'stacks':
             case 'st':
                 stacks(client, msg.channel.id, msg.author.id, args[0]);
+                break;
+
+            // Joe Mama
+            case 'joe':
+                msg.channel.send("joe mama");
                 break;
 
             // Default
