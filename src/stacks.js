@@ -102,7 +102,7 @@ module.exports = async (client, id, senderID, arg) => {
             .setTitle("Stacks!")
             .setColor(getRandomColor())
             .setDescription("Usage:\n`$stacks <args>`\n_or_\n`$st <args>`")
-            .addField("What is Stacks!?", "Stacks is a game where you are given jumbled stacks of different letters and you have to arrange them so that all stacks contain only one kind of letter, or no letter at all. Only same letters can be dropped on each other!")
+            .addField("What is Stacks!?", "Stacks is a game where you are given jumbled stacks of different letters and you have to arrange them so that all stacks contain only one kind of letter, or no letter at all, in the LEAST number of moves. Only same letters can be dropped on each other!")
             .addField("Arguments", "`play` _or_ `start`\nStarts a game of Stacks!")
             .setFooter("Unjumble the jumbled stacks!")
             channel.send(stackEmbed);
