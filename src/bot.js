@@ -73,7 +73,7 @@ client.on("message", async (msg) => {
                     .setColor(getRandomColor())
                     .setTitle("Help")
                     .setDescription("**Syntax**\n`$<command> *args`")
-                    .addField("Available Commands", "`coinhunt`, `chat`, `choice`, `avatar`, `ping`, `ask`")
+                    .addField("Available Commands", "`coinhunt`, `chat`, `choice`, `avatar`, `ping`, `ask`, `stacks`")
                     .setFooter("New commands will be added soon!")
                     .setThumbnail("https://i.imgur.com/7qttfnm.gif");
                 msg.channel.send(helpEmbed);
