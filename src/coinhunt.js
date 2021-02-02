@@ -1,5 +1,6 @@
 require("dotenv").config();
 const mongoose = require("mongoose");
+const { MessageEmbed } = require("discord.js")
 mongoose.connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
@@ -17,6 +18,10 @@ const coinhuntPlayerSchema = new mongoose.Schema({
     }
 })
 const CoinhuntPlayer = new mongoose.model("CoinhuntPlayer", coinhuntPlayerSchema);
+
+function getRandomColor() {
+    return '#' + (Math.random() * (1 << 24) | 0).toString(16);
+}
 
 function updateScore(senderID, userscore) {
     CoinhuntPlayer.find({
@@ -136,7 +141,7 @@ module.exports = async (client, id, senderID, arg) => {
             });
             break;
 
-            // User Highscore  
+        // User Highscore  
         case 'highscore':
         case 'hs':
             CoinhuntPlayer.find({
@@ -155,13 +160,28 @@ module.exports = async (client, id, senderID, arg) => {
             });
             break;
 
-            // Global Leaderboard
+        // Global Leaderboard
         case 'leaderboard':
         case 'lb':
             channel.send("This feature is currently in development 👷.");
             break;
+
+        // Help
+        case 'help':
+        case undefined:
+            const coinhuntEmbed = new MessageEmbed()
+                .setColor(getRandomColor())
+                .setTitle("CoinHunt")
+                .setDescription("Usage:\n`$coinhunt <args>`\n_or_\n`$ch <args>`")
+                .addField("What is coinhunt?", "It is a small minigame where main objective is to collect coins in limited number of moves.\n```\n[@] : Player\n[·] : Visited\n[○] : Coin\n[+] : Power-Ups (+5 Moves)\n[R] : Reveal-Shard\n```")
+                .addField("Arguments", "`play` _or_ `start`\nStarts a game of coinhunt\n`highscore/hs`\nShows the user's highscore.\n`leaderboard/lb`\nDisplays the leaderboard.")
+                .setFooter("A mini game where you try to collect all the coins in limited number of moves.")
+                .setThumbnail("https://control.do/wp-content/uploads/2020/09/coin.gif");
+            channel.send(coinhuntEmbed);
+            break;
+
         default:
-            channel.send("This argument does not exist for CoinHunt!");
+            channel.send("This argument does not exist for coinhunt!");
             break;
     }
 }

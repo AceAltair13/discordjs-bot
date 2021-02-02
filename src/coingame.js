@@ -195,23 +195,23 @@ class CoinGame {
             }
         }
 
-        var mapString = "```#####################\n" +
-        "# {} {} {} {} {} {} {} {} {} #\n" +
-        "# {} {} {} {} {} {} {} {} {} #\n" +
-        "# {} {} {} {} {} {} {} {} {} #\n" +
-        "# {} {} {} {} {} {} {} {} {} #\n" +
-        "# {} {} {} {} {} {} {} {} {} #\n" +
-        "# {} {} {} {} {} {} {} {} {} #\n" +
-        "# {} {} {} {} {} {} {} {} {} #\n" +
-        "# {} {} {} {} {} {} {} {} {} #\n" +
-        "# {} {} {} {} {} {} {} {} {} #\n" +
-        "#####################\n" +
+        var mapString = "╔═══════════════════╗\n" +
+        "║ {} {} {} {} {} {} {} {} {} ║\n" +
+        "║ {} {} {} {} {} {} {} {} {} ║\n" +
+        "║ {} {} {} {} {} {} {} {} {} ║\n" +
+        "║ {} {} {} {} {} {} {} {} {} ║\n" +
+        "║ {} {} {} {} {} {} {} {} {} ║\n" +
+        "║ {} {} {} {} {} {} {} {} {} ║\n" +
+        "║ {} {} {} {} {} {} {} {} {} ║\n" +
+        "║ {} {} {} {} {} {} {} {} {} ║\n" +
+        "║ {} {} {} {} {} {} {} {} {} ║\n" +
+        "╚═══════════════════╝\n" +
         "Moves 🏃: {}\n" +
         "Coins 💰: {} / {}\n" +
         "Power-Ups ⚡: {} / {}\n" +
-        "Reveals 🔮: {} / {}```";
+        "Reveals 🔮: {} / {}";
 
-        return mapString.format(...symbols, this.stats.moves, this.stats.coins, this.stats.max_coins, this.stats.power, this.stats.max_power, this.stats.reveal, this.stats.max_reveal);
+        return "```\n" + mapString.format(...symbols, this.stats.moves, this.stats.coins, this.stats.max_coins, this.stats.power, this.stats.max_power, this.stats.reveal, this.stats.max_reveal) + "\n```";
     }
 
 }
