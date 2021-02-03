@@ -20,21 +20,19 @@ const addReactionsAndStart = async (msg, reactions, senderID) => {
             await msg.edit(`${game.renderMap(-1, moves, " ")}`);
             while (!game.playerWin()) {
                 await msg.awaitReactions((reactions, user) => reactions.emoji.name === "0️⃣" || reactions.emoji.name === "1️⃣" || reactions.emoji.name === "2️⃣" || reactions.emoji.name === "3️⃣" || reactions.emoji.name === "❌" && user.id === senderID, {
-                        time: 60
+                        time: 200
                     })
                     .then(async r => {
 
-                        async function moveStack(pos) {
-                            // console.log(pos);
-                            // console.log(choiceArr);
+                        function moveStack(pos) {
                             if(!(choiceArr[0]+1)) {
                                 choiceArr.push(pos);
-                                await msg.edit(`${game.renderMap(choiceArr[0], moves, "⭡")}`);
+                                msg.edit(`${game.renderMap(choiceArr[0], moves, "⭡")}`);
                             } else {
                                 game.move(choiceArr[0], pos);
                                 moves++;
                                 choiceArr.shift();
-                                await msg.edit(`${game.renderMap(pos, moves, "⭣")}`);
+                                msg.edit(`${game.renderMap(pos, moves, "⭣")}`);
                             }
                         }
 
@@ -102,7 +100,7 @@ module.exports = async (client, id, senderID, arg) => {
             .setTitle("Stacks!")
             .setColor(getRandomColor())
             .setDescription("Usage:\n`$stacks <args>`\n_or_\n`$st <args>`")
-            .addField("What is Stacks!?", "Stacks is a game where you are given jumbled stacks of different letters and you have to arrange them so that all stacks contain only one kind of letter, or no letter at all, in the LEAST number of moves. Only same letters can be dropped on each other!")
+            .addField("What is Stacks!?", "Stacks is a game where you are given jumbled stacks of different letters and you have to arrange them so that all stacks contain only one kind of letter, or no letter at all, in the LEAST number of moves!")
             .addField("Arguments", "`play` _or_ `start`\nStarts a game of Stacks!")
             .setFooter("Unjumble the jumbled stacks!")
             channel.send(stackEmbed);

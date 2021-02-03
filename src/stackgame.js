@@ -48,9 +48,7 @@ class StackGame {
 
     move(a, b) {
         if (this.gameStack[a][0] && this.gameStack[b].length !== 4) {
-            if (this.gameStack[a][0] === this.gameStack[b][0] || !this.gameStack[b][0]) {
                 this.gameStack[b].unshift(this.gameStack[a].shift());
-            }
         }
     }
 
