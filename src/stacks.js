@@ -19,7 +19,7 @@ const addReactionsAndStart = async (msg, reactions, senderID) => {
             const choiceArr = [];
             await msg.edit(`${game.renderMap(-1, moves, " ")}`);
             while (!game.playerWin()) {
-                await msg.awaitReactions((reactions, user) => reactions.emoji.name === "0️⃣" || reactions.emoji.name === "1️⃣" || reactions.emoji.name === "2️⃣" || reactions.emoji.name === "3️⃣" || reactions.emoji.name === "❌" && user.id === senderID, {
+                await msg.awaitReactions((reactions, user) => (reactions.emoji.name === "0️⃣" || reactions.emoji.name === "1️⃣" || reactions.emoji.name === "2️⃣" || reactions.emoji.name === "3️⃣" || reactions.emoji.name === "❌") && user.id === senderID, {
                         time: 200
                     })
                     .then(async r => {

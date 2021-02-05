@@ -74,7 +74,7 @@ const addReactionsAndStart = async (msg, reactions, senderID) => {
             const game = new CoinGame();
             await msg.edit(`${game.renderMap()}`);
             while (game.stats.moves > 0 && game.stats.coins < game.stats.max_coins) {
-                await msg.awaitReactions((reactions, user) => reactions.emoji.name === "◀️" || reactions.emoji.name === "🔼" || reactions.emoji.name === "🔽" || reactions.emoji.name === "▶️" || reactions.emoji.name === "❌" && user.id === senderID, {
+                await msg.awaitReactions((reactions, user) => (reactions.emoji.name === "◀️" || reactions.emoji.name === "🔼" || reactions.emoji.name === "🔽" || reactions.emoji.name === "▶️" || reactions.emoji.name === "❌") && user.id === senderID, {
                         time: 60
                     })
                     .then(async (r) => {
