@@ -188,8 +188,12 @@ module.exports = async (client, id, senderID, arg, guildid) => {
                                 newRow += "║ ";
                                 const rank = parseInt(item) + 1;
                                 var space = 4 - rank.toString().length;
-                                const user = channel.guild.members.cache.get(results[item].userid).user.username.slice(0, 20) || await channel.guild.members.fetch(results[item].userid).then(user => {
+                                const user = channel.guild.members.cache.get(results[item].userid).user.username.slice(0, 20) || await channel.guild.members.fetch(results[item].userid)
+                                .then(user => {
                                     return user.user.username.slice(0, 20)
+                                })
+                                .catch(err => {
+                                    console.log(err);
                                 });
                                 while (space) {
                                     newRow += " ";
