@@ -175,7 +175,7 @@ module.exports = async (client, id, senderID, arg, guildid) => {
             } else {
                 CoinhuntPlayer.find({
                     guildid: guildid
-                }).sort('-maxscore').limit(10).exec((err, results) => {
+                }).sort('-maxscore').limit(10).exec(async (err, results) => {
                     if (err) {
                         console.log(err);
                         // mongoose.connection.close();
@@ -188,7 +188,9 @@ module.exports = async (client, id, senderID, arg, guildid) => {
                                 newRow += "║ ";
                                 const rank = parseInt(item) + 1;
                                 var space = 4 - rank.toString().length;
-                                const user = channel.guild.members.cache.get(results[item].userid).user.username.slice(0, 20);
+                                const user = channel.guild.members.cache.get(results[item].userid).user.username.slice(0, 20) || await channel.guild.members.fetch(results[item].userid).then(user => {
+                                    return user.user.username.slice(0, 20)
+                                });
                                 while (space) {
                                     newRow += " ";
                                     space--;
