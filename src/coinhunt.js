@@ -41,7 +41,8 @@ function updateScore(senderID, userscore, guildid) {
 
                 if (prevMaxScore < userscore) {
                     CoinhuntPlayer.updateOne({
-                        userid: senderID
+                        userid: senderID,
+                        guildid: guildid
                     }, {
                         score: prevScore + userscore,
                         maxscore: userscore
@@ -50,7 +51,8 @@ function updateScore(senderID, userscore, guildid) {
                     })
                 } else {
                     CoinhuntPlayer.updateOne({
-                        userid: senderID
+                        userid: senderID,
+                        guildid: guildid
                     }, {
                         score: prevScore + userscore
                     }, err => {
