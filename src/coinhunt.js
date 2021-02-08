@@ -1,6 +1,8 @@
 require("dotenv").config();
 const mongoose = require("mongoose");
-const { MessageEmbed } = require("discord.js")
+const {
+    MessageEmbed
+} = require("discord.js")
 mongoose.connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
@@ -12,10 +14,11 @@ const {
 const coinhuntPlayerSchema = new mongoose.Schema({
     userid: String,
     score: Number,
+    guildid: String,
     maxscore: {
         type: Number,
         default: 0
-    }
+    },
 })
 const CoinhuntPlayer = new mongoose.model("CoinhuntPlayer", coinhuntPlayerSchema);
 
@@ -23,9 +26,11 @@ function getRandomColor() {
     return '#' + (Math.random() * (1 << 24) | 0).toString(16);
 }
 
-function updateScore(senderID, userscore) {
+function updateScore(senderID, userscore, guildid) {
+    // console.log(guildid);
     CoinhuntPlayer.find({
-        userid: senderID
+        userid: senderID,
+        guildid: guildid
     }, (e, retrieve) => {
         if (e) {
             console.log(e);
@@ -56,7 +61,8 @@ function updateScore(senderID, userscore) {
                 const newPlayer = new CoinhuntPlayer({
                     userid: senderID,
                     score: userscore,
-                    maxscore: userscore
+                    maxscore: userscore,
+                    guildid: guildid
                 });
                 newPlayer.save();
             }
@@ -64,18 +70,18 @@ function updateScore(senderID, userscore) {
     });
 }
 
-const addReactionsAndStart = async (msg, reactions, senderID) => {
+const addReactionsAndStart = async (msg, reactions, senderID, guildid) => {
     try {
         await msg.react(reactions[0]);
         reactions.shift();
         if (reactions.length > 0) {
-            setTimeout(() => addReactionsAndStart(msg, reactions, senderID), 100);
+            setTimeout(() => addReactionsAndStart(msg, reactions, senderID, guildid), 100);
         } else {
             const game = new CoinGame();
             await msg.edit(`${game.renderMap()}`);
             while (game.stats.moves > 0 && game.stats.coins < game.stats.max_coins) {
                 await msg.awaitReactions((reactions, user) => (reactions.emoji.name === "◀️" || reactions.emoji.name === "🔼" || reactions.emoji.name === "🔽" || reactions.emoji.name === "▶️" || reactions.emoji.name === "❌") && user.id === senderID, {
-                        time: 60
+                        time: 200
                     })
                     .then(async (r) => {
                         if (r.first()) {
@@ -109,22 +115,23 @@ const addReactionsAndStart = async (msg, reactions, senderID) => {
             }
             const score = game.stats.coins + game.stats.moves;
             if (game.stats.moves === 0) {
-                await msg.edit("```Uh oh, Game Over. Your score: " + score + "```");
-                updateScore(senderID, score);
+                await msg.edit("```\nUh oh, Game Over. Your score: " + score + "\n```");
+                updateScore(senderID, score, guildid);
             } else if (game.stats.coins === game.stats.max_coins) {
-                await msg.edit("```Congratulations! You Win. Your Score: " + score + "```");
-                updateScore(senderID, score);
+                await msg.edit("```\nCongratulations! You Win. Your Score: " + score + "\n```");
+                updateScore(senderID, score, guildid);
             }
+            // console.log("addReactionsAndStart: " + guildid);
             await msg.reactions.removeAll();
         }
     } catch (er) {
         console.log(er);
-        await msg.edit("```There was an error! Quiting...```");
+        await msg.edit("```\nThere was an error! Quiting...\n```");
         await msg.reactions.removeAll();
     }
 }
 
-module.exports = async (client, id, senderID, arg) => {
+module.exports = async (client, id, senderID, arg, guildid) => {
     const channel = await client.channels.fetch(id);
     switch (arg) {
 
@@ -133,7 +140,7 @@ module.exports = async (client, id, senderID, arg) => {
         case 'start':
             channel.send("```Loading...```").then(async message => {
                 try {
-                    addReactionsAndStart(message, ['❌', '◀️', '🔼', '🔽', '▶️'], senderID);
+                    addReactionsAndStart(message, ['❌', '◀️', '🔼', '🔽', '▶️'], senderID, guildid);
                 } catch (err) {
                     await message.edit("```There was an error, exiting.```");
                     await message.reactions.removeAll();
@@ -141,7 +148,7 @@ module.exports = async (client, id, senderID, arg) => {
             });
             break;
 
-        // User Highscore  
+            // User Highscore  
         case 'highscore':
         case 'hs':
             CoinhuntPlayer.find({
@@ -160,13 +167,59 @@ module.exports = async (client, id, senderID, arg) => {
             });
             break;
 
-        // Global Leaderboard
+            // Global Leaderboard
         case 'leaderboard':
         case 'lb':
-            channel.send("This feature is currently in development 👷.");
+            if (channel.type === "dm") {
+                channel.send("Leaderboards are not available in DMs.");
+            } else {
+                CoinhuntPlayer.find({
+                    guildid: guildid
+                }).sort('-maxscore').limit(10).exec((err, results) => {
+                    if (err) {
+                        console.log(err);
+                        // mongoose.connection.close();
+                    } else {
+                        if (!results[0]) {
+                            channel.send("Leaderboard for this server is empty.");
+                        } else {
+                            var newRow = "```\n╔══════╦══════════════════════╦═══════════╗\n║ Rank ║         Name         ║ HighScore ║\n╠══════╬══════════════════════╬═══════════╣\n";
+                            for (var item in results) {
+                                newRow += "║ ";
+                                const rank = parseInt(item) + 1;
+                                var space = 4 - rank.toString().length;
+                                const user = channel.guild.members.cache.get(results[item].userid).user.username.slice(0, 20);
+                                while (space) {
+                                    newRow += " ";
+                                    space--;
+                                }
+                                space = 20 - user.length;
+                                newRow += rank + ` ║ ${user}`;
+                                while (space) {
+                                    newRow += " ";
+                                    space--;
+                                }
+                                newRow += " ║ ";
+                                space = 9 - results[item].maxscore.toString().length;
+                                while (space) {
+                                    newRow += " ";
+                                    space--;
+                                }
+                                newRow += `${results[item].maxscore} ║\n`;
+                            }
+                            newRow += "╚══════╩══════════════════════╩═══════════╝\n```";
+                            const chlbEmbed = new MessageEmbed()
+                                .setAuthor("Coinhunt Leaderboard", "https://control.do/wp-content/uploads/2020/09/coin.gif")
+                                .setDescription(newRow)
+                                .setColor(getRandomColor());
+                            channel.send(chlbEmbed);
+                        }
+                    }
+                })
+            }
             break;
 
-        // Help
+            // Help
         case 'help':
         case undefined:
             const coinhuntEmbed = new MessageEmbed()

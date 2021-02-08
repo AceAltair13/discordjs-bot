@@ -39,7 +39,7 @@ client.on("message", async (msg) => {
             // Coinhunt
             case "ch":
             case "coinhunt":
-                coinhunt(client, msg.channel.id, msg.author.id, args[0]);
+                coinhunt(client, msg.channel.id, msg.author.id, args[0], msg.guild.id);
                 break;
 
             // Cleverbot
