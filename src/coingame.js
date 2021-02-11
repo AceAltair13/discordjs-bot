@@ -64,16 +64,18 @@ class Cell {
         if (this.visible) {
             switch (this.has) {
                 case Pickup.coin:
-                    return '○';
+                    // return '○';
+                    return '🪙';
                 case Pickup.power:
-                    return '+';
+                    // return '+';
+                    return '🍀';
                 case Pickup.reveal:
-                    return 'R';
+                    return '☀';
                 case Pickup.empty:
-                    return '.';
+                    return '⬛';
             }
         } else {
-            return ' ';
+            return '⬛';
         }
     }
 }
@@ -188,30 +190,45 @@ class CoinGame {
         for (var i = 0; i < 9; i++) {
             for (var j = 0; j < 9; j++) {
                 if (i === this.player.x && j === this.player.y) {
-                    symbols.push('@');
+                    symbols.push('🏃');
                 } else {
                     symbols.push(this.coinMap[`x${i}y${j}`].showSymbol());
                 }
             }
         }
 
-        var mapString = "╔═══════════════════╗\n" +
-        "║ {} {} {} {} {} {} {} {} {} ║\n" +
-        "║ {} {} {} {} {} {} {} {} {} ║\n" +
-        "║ {} {} {} {} {} {} {} {} {} ║\n" +
-        "║ {} {} {} {} {} {} {} {} {} ║\n" +
-        "║ {} {} {} {} {} {} {} {} {} ║\n" +
-        "║ {} {} {} {} {} {} {} {} {} ║\n" +
-        "║ {} {} {} {} {} {} {} {} {} ║\n" +
-        "║ {} {} {} {} {} {} {} {} {} ║\n" +
-        "║ {} {} {} {} {} {} {} {} {} ║\n" +
-        "╚═══════════════════╝\n" +
-        "Moves 🏃: {}\n" +
-        "Coins 💰: {} / {}\n" +
-        "Power-Ups ⚡: {} / {}\n" +
-        "Reveals 🔮: {} / {}";
+        // var mapString = "╔═══════════════════╗\n" +
+        // "║ {} {} {} {} {} {} {} {} {} ║\n" +
+        // "║ {} {} {} {} {} {} {} {} {} ║\n" +
+        // "║ {} {} {} {} {} {} {} {} {} ║\n" +
+        // "║ {} {} {} {} {} {} {} {} {} ║\n" +
+        // "║ {} {} {} {} {} {} {} {} {} ║\n" +
+        // "║ {} {} {} {} {} {} {} {} {} ║\n" +
+        // "║ {} {} {} {} {} {} {} {} {} ║\n" +
+        // "║ {} {} {} {} {} {} {} {} {} ║\n" +
+        // "║ {} {} {} {} {} {} {} {} {} ║\n" +
+        // "╚═══════════════════╝\n" +
+        // "Moves 🏃: {}\n" +
+        // "Coins 💰: {} / {}\n" +
+        // "Power-Ups ⚡: {} / {}\n" +
+        // "Reveals 🔮: {} / {}";
+        var mapString = ":brown_square::brown_square::brown_square::brown_square::brown_square::brown_square::brown_square::brown_square::brown_square::brown_square::brown_square:\n" +
+        ":brown_square:{}{}{}{}{}{}{}{}{}:brown_square:\n" +
+        ":brown_square:{}{}{}{}{}{}{}{}{}:brown_square:\n" +
+        ":brown_square:{}{}{}{}{}{}{}{}{}:brown_square:\n" +
+        ":brown_square:{}{}{}{}{}{}{}{}{}:brown_square:\n" +
+        ":brown_square:{}{}{}{}{}{}{}{}{}:brown_square:\n" +
+        ":brown_square:{}{}{}{}{}{}{}{}{}:brown_square:\n" +
+        ":brown_square:{}{}{}{}{}{}{}{}{}:brown_square:\n" +
+        ":brown_square:{}{}{}{}{}{}{}{}{}:brown_square:\n" +
+        ":brown_square:{}{}{}{}{}{}{}{}{}:brown_square:\n" +
+        ":brown_square::brown_square::brown_square::brown_square::brown_square::brown_square::brown_square::brown_square::brown_square::brown_square::brown_square:\n" +
+        "Moves : {}\n" +
+        "Coins : {} / {}\n" +
+        "Power-Ups : {} / {}\n" +
+        "Reveals : {} / {}";
 
-        return "```\n" + mapString.format(...symbols, this.stats.moves, this.stats.coins, this.stats.max_coins, this.stats.power, this.stats.max_power, this.stats.reveal, this.stats.max_reveal) + "\n```";
+        return mapString.format(...symbols, this.stats.moves, this.stats.coins, this.stats.max_coins, this.stats.power, this.stats.max_power, this.stats.reveal, this.stats.max_reveal);
     }
 
 }
