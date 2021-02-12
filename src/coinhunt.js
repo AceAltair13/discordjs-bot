@@ -85,7 +85,7 @@ const addReactionsAndStart = async (msg, reactions, senderID, guildid) => {
                 await msg.awaitReactions((reactions, user) => (reactions.emoji.name === "◀️" || reactions.emoji.name === "🔼" || reactions.emoji.name === "🔽" || reactions.emoji.name === "▶️" || reactions.emoji.name === "❌") && user.id === senderID, {
                         time: 200
                     })
-                    .then(async (r) => {
+                    .then(async r => {
                         if (r.first()) {
                             var direction;
                             const choice = r.first().emoji.name;

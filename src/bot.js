@@ -13,7 +13,8 @@ const {
 const client = new Client({
     partials: ['MESSAGE', 'REACTION'],
 });
-const cleverbot = require("cleverbot-free");
+// const cleverbot = require("cleverbot-free");
+const chat = require("./chat");
 const coinhunt = require("./coinhunt");
 const stacks = require("./stacks");
 const PREFIX = "$";
@@ -44,27 +45,7 @@ client.on("message", async (msg) => {
 
             // Cleverbot
             case "chat":
-                if (!args[0]) {
-                    const chatEmbed = new MessageEmbed()
-                        .setColor(0xd1d119)
-                        .setTitle("Chat with Cleverbot")
-                        .setDescription("Usage\n`$chat <message>`")
-                        .setFooter("Sends and retrieves message from Cleverbot API");
-                    msg.channel.send(chatEmbed);
-                } else {
-                    try {
-                        cleverbot(args.join(" "))
-                            .then((response) => {
-                                msg.channel.startTyping();
-                                setTimeout(() => {
-                                    msg.channel.send(response).catch(console.error);
-                                    msg.channel.stopTyping();
-                                }, Math.random() * (1 - 3) + 1 * 1000)
-                            })
-                    } catch (err) {
-                        msg.channel.send("There was an error!");
-                    };
-                }
+                chat(client, msg.channel.id, msg.author.id, args[0]);
                 break;
 
             // Help
@@ -88,7 +69,7 @@ client.on("message", async (msg) => {
                     const choiceEmbed = new MessageEmbed()
                         .setColor(getRandomColor())
                         .setTitle("Choice Picker")
-                        .setDescription("Usage\n`$choose choice1, choice2, ...`\n_or_\n`$choice choice1, choice2, ...`")
+                        .setDescription("Usage\n`$choose choice1 choice2 ...`\n_or_\n`$choice choice1 choice2 ...`")
                         .setFooter("Selects a random item from the choices.");
                     msg.channel.send(choiceEmbed);
                 }
