@@ -1,5 +1,6 @@
 {
   "name": "discordjs-bot",
+  "type": "module",
   "version": "1.0.0",
   "description": "A Discord bot made for fun.",
   "main": "bot.js",

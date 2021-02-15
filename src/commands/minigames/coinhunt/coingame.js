@@ -1,49 +1,31 @@
+import { randInt , shuffleArray } from "../../../common/functions.js";
+
 const Direction = {
     right: 0,
     up: 1,
     left: 2,
-    down: 3
-}
+    down: 3,
+};
 
 const Pickup = {
     empty: 0,
     coin: 1,
     power: 2,
-    reveal: 3
-}
-
-function randInt(min, max) {
-    return Math.floor(Math.random() * (max - min + 1) + min);
-}
+    reveal: 3,
+};
 
 String.prototype.format = function () {
     var i = 0,
         args = arguments;
     return this.replace(/{}/g, function () {
-        return typeof args[i] != 'undefined' ? args[i++] : '';
+        return typeof args[i] != "undefined" ? args[i++] : "";
     });
 };
-
-function shuffleArray(array) {
-    var currentIndex = array.length,
-        temporaryValue, randomIndex;
-
-    while (0 !== currentIndex) {
-
-        randomIndex = Math.floor(Math.random() * currentIndex);
-        currentIndex -= 1;
-
-        temporaryValue = array[currentIndex];
-        array[currentIndex] = array[randomIndex];
-        array[randomIndex] = temporaryValue;
-    }
-    return array;
-}
 
 class Cell {
     constructor() {
         this.has = Pickup.empty;
-        this.visible = false
+        this.visible = false;
     }
 
     reveal() {
@@ -64,22 +46,21 @@ class Cell {
         if (this.visible) {
             switch (this.has) {
                 case Pickup.coin:
-                    return '○';
+                    return "○";
                 case Pickup.power:
-                    return '+';
+                    return "+";
                 case Pickup.reveal:
-                    return 'R';
+                    return "R";
                 case Pickup.empty:
-                    return '.';
+                    return ".";
             }
         } else {
-            return ' ';
+            return " ";
         }
     }
 }
 
 class CoinGame {
-
     revealNear() {
         const x = this.player.x;
         const y = this.player.y;
@@ -101,12 +82,12 @@ class CoinGame {
             max_power: 0,
             max_reveal: 0,
             moves: 25,
-            max_moves: 25
-        }
+            max_moves: 25,
+        };
 
         this.player = {
             x: 8,
-            y: 4
+            y: 4,
         };
         this.coinMap = new Object();
         const emptyCells = [];
@@ -135,7 +116,6 @@ class CoinGame {
         this.stats.max_power = putStuff(Pickup.power, 5, 10);
         this.stats.max_reveal = putStuff(Pickup.reveal, 0, 1);
         this.revealNear();
-
     }
 
     movePlayer(dir) {
@@ -188,34 +168,48 @@ class CoinGame {
         for (var i = 0; i < 9; i++) {
             for (var j = 0; j < 9; j++) {
                 if (i === this.player.x && j === this.player.y) {
-                    symbols.push('@');
+                    symbols.push("@");
                 } else {
                     symbols.push(this.coinMap[`x${i}y${j}`].showSymbol());
                 }
             }
         }
 
-        var mapString = "╔═══════════════════╗\n" +
-        "║ {} {} {} {} {} {} {} {} {} ║\n" +
-        "║ {} {} {} {} {} {} {} {} {} ║\n" +
-        "║ {} {} {} {} {} {} {} {} {} ║\n" +
-        "║ {} {} {} {} {} {} {} {} {} ║\n" +
-        "║ {} {} {} {} {} {} {} {} {} ║\n" +
-        "║ {} {} {} {} {} {} {} {} {} ║\n" +
-        "║ {} {} {} {} {} {} {} {} {} ║\n" +
-        "║ {} {} {} {} {} {} {} {} {} ║\n" +
-        "║ {} {} {} {} {} {} {} {} {} ║\n" +
-        "╚═══════════════════╝\n" +
-        "Moves 🏃: {}\n" +
-        "Coins 💰: {} / {}\n" +
-        "Power-Ups ⚡: {} / {}\n" +
-        "Reveals 🔮: {} / {}";
+        var mapString =
+            "╔═══════════════════╗\n" +
+            "║ {} {} {} {} {} {} {} {} {} ║\n" +
+            "║ {} {} {} {} {} {} {} {} {} ║\n" +
+            "║ {} {} {} {} {} {} {} {} {} ║\n" +
+            "║ {} {} {} {} {} {} {} {} {} ║\n" +
+            "║ {} {} {} {} {} {} {} {} {} ║\n" +
+            "║ {} {} {} {} {} {} {} {} {} ║\n" +
+            "║ {} {} {} {} {} {} {} {} {} ║\n" +
+            "║ {} {} {} {} {} {} {} {} {} ║\n" +
+            "║ {} {} {} {} {} {} {} {} {} ║\n" +
+            "╚═══════════════════╝\n" +
+            "Moves 🏃: {}\n" +
+            "Coins 💰: {} / {}\n" +
+            "Power-Ups ⚡: {} / {}\n" +
+            "Reveals 🔮: {} / {}";
 
-        return "```\n" + mapString.format(...symbols, this.stats.moves, this.stats.coins, this.stats.max_coins, this.stats.power, this.stats.max_power, this.stats.reveal, this.stats.max_reveal) + "\n```";
+        return (
+            "```\n" +
+            mapString.format(
+                ...symbols,
+                this.stats.moves,
+                this.stats.coins,
+                this.stats.max_coins,
+                this.stats.power,
+                this.stats.max_power,
+                this.stats.reveal,
+                this.stats.max_reveal
+            ) +
+            "\n```"
+        );
     }
-
 }
 
-module.exports.CoinGame = CoinGame;
-module.exports.Direction = Direction;
-
+const _CoinGame = CoinGame;
+export { _CoinGame as CoinGame };
+const _Direction = Direction;
+export { _Direction as Direction };

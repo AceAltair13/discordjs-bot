@@ -1,31 +1,29 @@
-require("dotenv").config();
+// DotEnv
+import dotenv from "dotenv";
+dotenv.config();
 
-function getRandomColor() {
-    return '#' + (Math.random() * (1 << 24) | 0).toString(16);
-}
+import { Client } from "discord.js";
+import chat from "./commands/chat.js";
+import coinhunt from "./commands/minigames/coinhunt/coinhunt.js";
+import stacks from "./commands/minigames/stacks/stacks.js";
+import help from "./commands/help.js";
+import choose from "./commands/choose.js";
+import avatar from "./commands/avatar.js";
+import ping from "./commands/ping.js";
+import ask from "./commands/ask.js";
 
-const CHOICES = ["Yes 👍", "No 👎", "Probably 🤷", "Probably Not 🙇", "Definitely! ✋", "Definitely Not! 🤞"];
-
-const {
-    Client,
-    MessageEmbed,
-} = require("discord.js");
 const client = new Client({
-    partials: ['MESSAGE', 'REACTION'],
+    partials: ["MESSAGE", "REACTION"],
 });
-// const cleverbot = require("cleverbot-free");
-const chat = require("./chat");
-const coinhunt = require("./coinhunt");
-const stacks = require("./stacks");
 const PREFIX = "$";
 
 client.on("ready", () => {
     client.user.setActivity({
         name: "$help",
-        type: "PLAYING"
+        type: "PLAYING",
     });
     console.log(`${client.user.username} has logged in.`);
-})
+});
 
 client.on("message", async (msg) => {
     if (msg.author.bot) return;
@@ -36,11 +34,16 @@ client.on("message", async (msg) => {
             .split(/\s+/);
 
         switch (CMD_NAME.toLowerCase()) {
-
             // Coinhunt
             case "ch":
             case "coinhunt":
-                coinhunt(client, msg.channel.id, msg.author.id, args[0], msg.guild.id);
+                coinhunt(
+                    client,
+                    msg.channel.id,
+                    msg.author.id,
+                    args[0],
+                    msg.guild.id
+                );
                 break;
 
             // Cleverbot
@@ -50,104 +53,38 @@ client.on("message", async (msg) => {
 
             // Help
             case "help":
-                const helpEmbed = new MessageEmbed()
-                    .setColor(getRandomColor())
-                    .setTitle("Help")
-                    .setDescription("**Syntax**\n`$<command> *args`")
-                    .addField("Available Commands", "`coinhunt`, `chat`, `choice`, `avatar`, `ping`, `ask`, `stacks`, `joe`")
-                    .setFooter("New commands will be added soon!")
-                    .setThumbnail("https://i.imgur.com/7qttfnm.gif");
-                msg.channel.send(helpEmbed);
+                help(client, msg.channel.id);
                 break;
 
             // Choose
             case "choose":
             case "choice":
-                if (args[0]) {
-                    msg.channel.send(args[Math.floor(Math.random() * args.length)]);
-                } else {
-                    const choiceEmbed = new MessageEmbed()
-                        .setColor(getRandomColor())
-                        .setTitle("Choice Picker")
-                        .setDescription("Usage\n`$choose choice1 choice2 ...`\n_or_\n`$choice choice1 choice2 ...`")
-                        .setFooter("Selects a random item from the choices.");
-                    msg.channel.send(choiceEmbed);
-                }
+                choose(client, msg.channel.id, args);
                 break;
 
             // Avatar tools
             case "avatar":
-                var username = msg.author.username;
-                var avatarURL = msg.author.avatarURL();
-                if (args[0]) {
-                    if (args[0] === "help") {
-                        const avatarHelpEmbed = new MessageEmbed()
-                            .setColor(getRandomColor())
-                            .setTitle("Display Avatar")
-                            .setDescription("Usage\n`$display`\n_or_\n`$display <mentioned_user>`")
-                            .setFooter("Fetches and displays the avatar of the user.");
-                        msg.channel.send(avatarHelpEmbed);
-                        return;
-                    }
-                    const user = msg.guild.members.cache.get(msg.mentions.members.first().user.id || args[0]);
-                    if (user) {
-                        username = user.user.username;
-                        avatarURL = user.user.avatarURL();
-                    } else {
-                        msg.channel.send("Please check the user ID.");
-                        return;
-                    }
-                }
-                const avatarEmbed = new MessageEmbed()
-                    .setColor(getRandomColor())
-                    .setDescription(username)
-                    .setImage(avatarURL);
-                msg.channel.send(avatarEmbed);
+                avatar(msg, args);
                 break;
 
             // Ping
             case "ping":
-                msg.channel.send("Pinging...")
-                    .then((m) => {
-                        m.delete();
-                        const pingEmbed = new MessageEmbed()
-                            .setTitle((m.createdTimestamp - msg.createdTimestamp) + "ms")
-                            .setColor(getRandomColor())
-                            .setDescription("Pong 🏓")
-                            .setFooter(`API Latency: ${client.ws.ping}ms`);
-                        msg.channel.send(pingEmbed);
-                    });
+                ping(client, msg.channel.id, msg.createdTimestamp);
                 break;
 
             // Ask
             case "ask":
-                if (args[0]) {
-                    const len = args.length;
-                    if (new RegExp("^\\?+$").test(args.join(""))) {
-                        msg.channel.send("Don't just throw them ❔ at me, m8.");
-                    } else if (args[len - 1] === "?" || args[len - 1].charAt(args[len - 1].length - 1) === "?") {
-                        msg.channel.send(CHOICES[Math.floor(Math.random() * CHOICES.length)]);
-                    } else {
-                        msg.channel.send("That doesn't look like a valid question, m8.");
-                    }
-                } else {
-                    const askEmbed = new MessageEmbed()
-                        .setColor(getRandomColor())
-                        .setTitle("Ask Bot")
-                        .setDescription("Usage\n`$ask <question>`")
-                        .setFooter("Bot replies to a Yes-No question.");
-                    msg.channel.send(askEmbed);
-                }
+                ask(client, msg.channel.id, args);
                 break;
 
             // Stacks
-            case 'stacks':
-            case 'st':
+            case "stacks":
+            case "st":
                 stacks(client, msg.channel.id, msg.author.id, args[0]);
                 break;
 
-            // Joe Mama
-            case 'joe':
+            // Idk why i even put this here
+            case "joe":
                 msg.channel.send("joe mama");
                 break;
 
@@ -156,7 +93,6 @@ client.on("message", async (msg) => {
                 msg.channel.send("Mate you should check your command.");
                 break;
         }
-
     }
 });
 
