@@ -9,7 +9,7 @@ export default async (client, id) => {
         .setDescription("**Syntax**\n`$<command> *args`")
         .addField(
             "Available Commands",
-            "`coinhunt`, `chat`, `choice`, `avatar`, `ping`, `ask`, `stacks`, `joe`"
+            "`coinhunt`, `chat`, `choice`, `avatar`, `ping`, `ask`, `stacks`, `joe`, `L`"
         )
         .setFooter("New commands will be added soon!")
         .setThumbnail("https://i.imgur.com/7qttfnm.gif");
