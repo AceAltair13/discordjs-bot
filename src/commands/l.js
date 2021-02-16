@@ -1,5 +1,5 @@
 export default async (msg, args) => {
-    const emojiL = msg.client.emojis.cache.get("717681809768448121");
+    const emojiL = msg.client.emojis.resolve("717681809768448121");
     if (args[0]) {
         const user = msg.guild.members.cache.get(
             msg.mentions.members.first()
