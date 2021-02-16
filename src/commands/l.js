@@ -7,6 +7,7 @@ export default async (msg, args) => {
                 : await msg.guild.members
                       .fetch({ query: args[0], limit: 1 })
                       .then((user) => user.first().id)
+                      .catch(() => {})
         );
         var reply = "";
         if (user) {
