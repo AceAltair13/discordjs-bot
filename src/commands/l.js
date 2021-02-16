@@ -1,4 +1,5 @@
 export default async (msg, args) => {
+    const emojiL = msg.client.emojis.cache.get("717681809768448121");
     if (args[0]) {
         const user = msg.guild.members.cache.get(
             msg.mentions.members.first()
@@ -9,13 +10,13 @@ export default async (msg, args) => {
         );
         var reply = "";
         if (user) {
-            reply = `Get L'd <a:LLLLL:717681809768448121> ${user.user.toString()}`;
+            reply = `Get L'd ${emojiL} ${user.user.toString()}`;
         } else {
             reply =
-                "No such user found, have an L instead <a:LLLLL:717681809768448121>";
+                `No such user found, have an L instead ${emojiL}`;
         }
         msg.channel.send(reply);
     } else {
-        msg.channel.send("Get L'd <a:LLLLL:717681809768448121>");
+        msg.channel.send(`Get L'd ${emojiL}`);
     }
 };
