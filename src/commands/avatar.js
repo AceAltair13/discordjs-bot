@@ -5,7 +5,7 @@ export default async (msg, args) => {
     var username = msg.author.username;
     var avatarURL = msg.author.avatarURL();
     if (args[0]) {
-        if (args[0] === "help") {
+        if (args[0].toLowerCase() === "help") {
             const avatarHelpEmbed = new MessageEmbed()
                 .setColor(getRandomColor())
                 .setTitle("Display Avatar")
@@ -17,13 +17,18 @@ export default async (msg, args) => {
             return;
         }
         const user = msg.guild.members.cache.get(
-            msg.mentions.members.first().user.id || args[0]
+            msg.mentions.members.first()
+                ? msg.mentions.members.first().user.id
+                : await msg.guild.members
+                      .fetch({ query: args[0], limit: 1 })
+                      .then((user) => user.first().id)
+                      .catch(() => {})
         );
         if (user) {
             username = user.user.username;
             avatarURL = user.user.avatarURL();
         } else {
-            msg.channel.send("Please check the user ID.");
+            msg.channel.send("Please check the argument.");
             return;
         }
     }

@@ -96,12 +96,9 @@ const addReactionsAndStart = async (msg, reactions, senderID, guildid) => {
                 await msg
                     .awaitReactions(
                         (reactions, user) =>
-                            (reactions.emoji.name === "◀️" ||
-                                reactions.emoji.name === "🔼" ||
-                                reactions.emoji.name === "🔽" ||
-                                reactions.emoji.name === "▶️" ||
-                                reactions.emoji.name === "❌") &&
-                            user.id === senderID,
+                            ["◀️", "🔼", "🔽", "▶️", "❌"].includes(
+                                reactions.emoji.name
+                            ) && user.id === senderID,
                         {
                             time: 200,
                         }

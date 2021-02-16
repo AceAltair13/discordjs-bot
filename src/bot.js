@@ -11,6 +11,7 @@ import choose from "./commands/choose.js";
 import avatar from "./commands/avatar.js";
 import ping from "./commands/ping.js";
 import ask from "./commands/ask.js";
+import getL from "./commands/l.js";
 
 const client = new Client({
     partials: ["MESSAGE", "REACTION"],
@@ -26,13 +27,17 @@ client.on("ready", () => {
 });
 
 client.on("message", async (msg) => {
+    // Exit if message is from bot
     if (msg.author.bot) return;
+
+    // Parse the user message
     if (msg.content.startsWith(PREFIX)) {
         const [CMD_NAME, ...args] = msg.content
             .trim()
             .substring(PREFIX.length)
             .split(/\s+/);
 
+        // Segregate the commands using switch-case
         switch (CMD_NAME.toLowerCase()) {
             // Coinhunt
             case "ch":
@@ -83,12 +88,16 @@ client.on("message", async (msg) => {
                 stacks(client, msg.channel.id, msg.author.id, args[0]);
                 break;
 
-            // Idk why i even put this here
+            // Idk why did i even put this here
             case "joe":
                 msg.channel.send("joe mama");
                 break;
 
-            // Default
+            case "l":
+                getL(msg, args);
+                break;
+
+            // None of the above
             default:
                 msg.channel.send("Mate you should check your command.");
                 break;

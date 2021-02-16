@@ -1,12 +1,4 @@
-import { shuffleArray } from "../../../common/functions.js";
-
-String.prototype.format = function () {
-    var i = 0,
-        args = arguments;
-    return this.replace(/{}/g, function () {
-        return typeof args[i] != "undefined" ? args[i++] : "";
-    });
-};
+import { shuffleArray, formatString } from "../../../common/functions.js";
 
 class StackGame {
     constructor() {
@@ -90,7 +82,7 @@ class StackGame {
                 }
             }
         }
-        return mapString.format(...fillerArray, moves);
+        return formatString(mapString, [...fillerArray, moves]);
     }
 }
 

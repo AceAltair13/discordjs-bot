@@ -14,10 +14,9 @@ function randInt(min, max) {
 }
 
 // String prototype format function similar to python
-String.prototype.format = function () {
-    var i = 0,
-        args = arguments;
-    return this.replace(/{}/g, function () {
+function formatString(str, args = []) {
+    var i = 0;
+    return str.replace(/{}/g, function () {
         return typeof args[i] != "undefined" ? args[i++] : "";
     });
 };
@@ -39,4 +38,4 @@ function shuffleArray(array) {
     return array;
 }
 
-export { getRandomColor, randInt, shuffleArray };
+export { getRandomColor, randInt, shuffleArray, formatString };

@@ -1,4 +1,8 @@
-import { randInt , shuffleArray } from "../../../common/functions.js";
+import {
+    randInt,
+    shuffleArray,
+    formatString,
+} from "../../../common/functions.js";
 
 const Direction = {
     right: 0,
@@ -12,14 +16,6 @@ const Pickup = {
     coin: 1,
     power: 2,
     reveal: 3,
-};
-
-String.prototype.format = function () {
-    var i = 0,
-        args = arguments;
-    return this.replace(/{}/g, function () {
-        return typeof args[i] != "undefined" ? args[i++] : "";
-    });
 };
 
 class Cell {
@@ -194,7 +190,7 @@ class CoinGame {
 
         return (
             "```\n" +
-            mapString.format(
+            formatString(mapString, [
                 ...symbols,
                 this.stats.moves,
                 this.stats.coins,
@@ -202,8 +198,8 @@ class CoinGame {
                 this.stats.power,
                 this.stats.max_power,
                 this.stats.reveal,
-                this.stats.max_reveal
-            ) +
+                this.stats.max_reveal,
+            ]) +
             "\n```"
         );
     }
