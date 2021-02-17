@@ -1,6 +1,5 @@
 import { StackGame } from "./stackgame.js";
-import { MessageEmbed } from "discord.js";
-import { getRandomColor } from "../../../common/functions.js";
+import { helpEmbeds} from "../../../common/constants.js";
 
 const addReactionsAndStart = async (msg, reactions, senderID) => {
     try {
@@ -85,13 +84,13 @@ const addReactionsAndStart = async (msg, reactions, senderID) => {
             await msg.edit(
                 "```\n" +
                     `Congratulations! You win with ${moves} moves.` +
-                    "```"
+                    "\n```"
             );
             await msg.reactions.removeAll();
         }
     } catch (er) {
         console.log(er);
-        await msg.edit("```There was an error! Quiting...```");
+        await msg.edit("```\nThere was an error! Quiting...\n```");
         await msg.reactions.removeAll();
     }
 };
@@ -103,7 +102,7 @@ export default async (client, id, senderID, arg) => {
         // Start
         case "play":
         case "start":
-            channel.send("```Loading...```").then(async (message) => {
+            channel.send("```\nLoading...\n```").then(async (message) => {
                 try {
                     addReactionsAndStart(
                         message,
@@ -111,7 +110,7 @@ export default async (client, id, senderID, arg) => {
                         senderID
                     );
                 } catch (err) {
-                    await message.edit("```There was an error, exiting.```");
+                    await message.edit("```\nThere was an error, exiting.\n```");
                     await message.reactions.removeAll();
                 }
             });
@@ -119,20 +118,7 @@ export default async (client, id, senderID, arg) => {
 
         case "help":
         case undefined:
-            const stackEmbed = new MessageEmbed()
-                .setTitle("Stacks!")
-                .setColor(getRandomColor())
-                .setDescription("Usage:\n`$stacks <args>`\n_or_\n`$st <args>`")
-                .addField(
-                    "What is Stacks!?",
-                    "Stacks is a game where you are given jumbled stacks of different letters and you have to arrange them so that all stacks contain only one kind of letter, or no letter at all, in the LEAST number of moves!"
-                )
-                .addField(
-                    "Arguments",
-                    "`play` _or_ `start`\nStarts a game of Stacks!"
-                )
-                .setFooter("Unjumble the jumbled stacks!");
-            channel.send(stackEmbed);
+            channel.send(helpEmbeds.stacks);
             break;
     }
 };

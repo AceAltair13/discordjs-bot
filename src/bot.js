@@ -58,7 +58,7 @@ client.on("message", async (msg) => {
 
             // Help
             case "help":
-                help(client, msg.channel.id);
+                help(client, msg.channel.id, args[0]);
                 break;
 
             // Choose

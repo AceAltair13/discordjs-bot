@@ -9,6 +9,7 @@ connect(process.env.MONGODB_URI, {
 });
 import { CoinGame, Direction } from "./coingame.js";
 import { getRandomColor } from "../../../common/functions.js";
+import { helpEmbeds, assetsLinks } from "../../../common/constants.js";
 
 const coinhuntPlayerSchema = new Schema({
     userid: String,
@@ -276,7 +277,7 @@ export default async (client, id, senderID, arg, guildid) => {
                                 const chlbEmbed = new MessageEmbed()
                                     .setAuthor(
                                         "Coinhunt Leaderboard",
-                                        "https://control.do/wp-content/uploads/2020/09/coin.gif"
+                                        assetsLinks.coinhunt
                                     )
                                     .setDescription(newRow)
                                     .setColor(getRandomColor());
@@ -290,27 +291,7 @@ export default async (client, id, senderID, arg, guildid) => {
         // Help
         case "help":
         case undefined:
-            const coinhuntEmbed = new MessageEmbed()
-                .setColor(getRandomColor())
-                .setTitle("CoinHunt")
-                .setDescription(
-                    "Usage:\n`$coinhunt <args>`\n_or_\n`$ch <args>`"
-                )
-                .addField(
-                    "What is coinhunt?",
-                    "It is a small minigame where main objective is to collect coins in limited number of moves.\n```\n[@] : Player\n[·] : Visited\n[○] : Coin\n[+] : Power-Ups (+5 Moves)\n[R] : Reveal-Shard\n```"
-                )
-                .addField(
-                    "Arguments",
-                    "`play` _or_ `start`\nStarts a game of coinhunt\n`highscore/hs`\nShows the user's highscore.\n`leaderboard/lb`\nDisplays the leaderboard."
-                )
-                .setFooter(
-                    "A mini game where you try to collect all the coins in limited number of moves."
-                )
-                .setThumbnail(
-                    "https://control.do/wp-content/uploads/2020/09/coin.gif"
-                );
-            channel.send(coinhuntEmbed);
+            channel.send(helpEmbeds.coinhunt);
             break;
 
         default:

@@ -1,5 +1,6 @@
+import { emoji } from "../common/constants.js";
+
 export default async (msg, args) => {
-    const emojiL = msg.client.emojis.resolve("717681809768448121");
     if (args[0]) {
         const user = msg.guild.members.cache.get(
             msg.mentions.members.first()
@@ -11,13 +12,13 @@ export default async (msg, args) => {
         );
         var reply = "";
         if (user) {
-            reply = `Get L'd ${emojiL} ${user.user.toString()}`;
+            reply = `Get L'd ${emoji.l} ${user.user.toString()}`;
         } else {
             reply =
-                `No such user found, have an L instead ${emojiL}`;
+                `No such user found, have an L instead ${emoji.l}`;
         }
         msg.channel.send(reply);
     } else {
-        msg.channel.send(`Get L'd ${emojiL}`);
+        msg.channel.send(`Get L'd ${emoji.l}`);
     }
 };

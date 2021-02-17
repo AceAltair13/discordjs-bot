@@ -1,5 +1,5 @@
-import { MessageEmbed } from "discord.js";
-import { getRandomColor } from "../common/functions.js";
+import { helpEmbeds} from "../common/constants.js";
+
 const CHOICES = [
     "Yes 👍",
     "No 👎",
@@ -24,11 +24,6 @@ export default async (client, id, args) => {
             channel.send("That doesn't look like a valid question, m8.");
         }
     } else {
-        const askEmbed = new MessageEmbed()
-            .setColor(getRandomColor())
-            .setTitle("Ask Bot")
-            .setDescription("Usage\n`$ask <question>`")
-            .setFooter("Bot replies to a Yes-No question.");
-        channel.send(askEmbed);
+        channel.send(helpEmbeds.ask);
     }
 };

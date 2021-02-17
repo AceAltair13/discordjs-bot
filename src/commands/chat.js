@@ -1,6 +1,5 @@
 import cleverbot from "cleverbot-free";
-import { MessageEmbed } from "discord.js";
-import { getRandomColor } from "../common/functions.js";
+import { helpEmbeds} from "../common/constants.js";
 
 // Timeout Limit Units
 const timeoutUnitLimit = 60;
@@ -89,16 +88,7 @@ export default async (client, id, senderID, arg) => {
 
         case "help":
         case undefined:
-            const chatEmbed = new MessageEmbed()
-                .setColor(getRandomColor())
-                .setTitle("Chat with Cleverbot")
-                .setDescription(
-                    "Usage\n`$chat start`\nStart a chat session with cleverbot\n`$chat end`\nStop the chat session with cleverbot."
-                )
-                .setFooter(
-                    "Sends and retrieves message from Cleverbot API (New and Improved!)"
-                );
-            channel.send(chatEmbed);
+            channel.send(helpEmbeds.chat);
             break;
     }
 };
