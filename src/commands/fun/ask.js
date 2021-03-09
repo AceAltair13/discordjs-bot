@@ -1,4 +1,4 @@
-import { helpEmbeds} from "../common/constants.js";
+import { helpEmbeds} from "../../common/constants.js";
 
 const CHOICES = [
     "Yes 👍",

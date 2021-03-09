@@ -1,4 +1,4 @@
-import { helpEmbeds} from "../common/constants.js";
+import { helpEmbeds} from "../../common/constants.js";
 
 export default async (client, id, args) => {
     const channel = await client.channels.fetch(id);

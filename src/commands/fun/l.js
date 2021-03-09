@@ -1,4 +1,4 @@
-import { emoji } from "../common/constants.js";
+import { emoji } from "../../common/constants.js";
 
 export default async (msg, args) => {
     if (args[0]) {

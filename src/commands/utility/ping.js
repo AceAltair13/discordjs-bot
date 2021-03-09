@@ -1,5 +1,5 @@
 import { MessageEmbed } from "discord.js";
-import { getRandomColor } from "../common/functions.js";
+import { getRandomColor } from "../../common/functions.js";
 
 export default async (client, id, createdTimestamp) => {
     const channel = await client.channels.fetch(id);

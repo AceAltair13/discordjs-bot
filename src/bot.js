@@ -2,16 +2,16 @@
 import dotenv from "dotenv";
 dotenv.config();
 
-import { Client } from "discord.js";
-import chat from "./commands/chat.js";
+import { Client, MessageEmbed } from "discord.js";
+import chat from "./commands/fun/chat.js";
 import coinhunt from "./commands/minigames/coinhunt/coinhunt.js";
 import stacks from "./commands/minigames/stacks/stacks.js";
-import help from "./commands/help.js";
-import choose from "./commands/choose.js";
-import avatar from "./commands/avatar.js";
-import ping from "./commands/ping.js";
-import ask from "./commands/ask.js";
-import getL from "./commands/l.js";
+import help from "./commands/utility/help.js";
+import choose from "./commands/utility/choose.js";
+import avatar from "./commands/utility/avatar.js";
+import ping from "./commands/utility/ping.js";
+import ask from "./commands/fun/ask.js";
+import getL from "./commands/fun/l.js";
 
 const client = new Client({
     partials: ["MESSAGE", "REACTION"],
@@ -95,6 +95,15 @@ client.on("message", async (msg) => {
 
             case "l":
                 getL(msg, args);
+                break;
+            
+            // DiscordCraft
+            case "discordcraft":
+            case "dc":
+                const dcembed = new MessageEmbed()
+                .setImage("https://raw.githubusercontent.com/AceAltair13/MyAssets/master/discordjs-bot/discordrpg/cover.png")
+                .setFooter("Coming Soon");
+                msg.channel.send(dcembed);
                 break;
 
             // None of the above

@@ -1,13 +1,13 @@
 import { MessageEmbed } from "discord.js";
-import { getRandomColor } from "../common/functions.js";
-import { helpEmbeds} from "../common/constants.js";
+import { getRandomColor } from "../../common/functions.js";
+import { helpEmbeds} from "../../common/constants.js";
 
 export default async (msg, args) => {
     var username = msg.author.username;
     var avatarURL = msg.author.avatarURL();
     if (args[0]) {
         if (args[0].toLowerCase() === "help") {
-            msg.channel.send(avatarHelpEmbed);
+            msg.channel.send(helpEmbeds.avatar);
             return;
         }
         const user = msg.guild.members.cache.get(
@@ -30,5 +30,5 @@ export default async (msg, args) => {
         .setColor(getRandomColor())
         .setDescription(username)
         .setImage(avatarURL);
-    msg.channel.send(helpEmbeds.avatar);
+    msg.channel.send(avatarEmbed);
 };

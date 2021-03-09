@@ -1,5 +1,5 @@
 import cleverbot from "cleverbot-free";
-import { helpEmbeds} from "../common/constants.js";
+import { helpEmbeds} from "../../common/constants.js";
 
 // Timeout Limit Units
 const timeoutUnitLimit = 60;
