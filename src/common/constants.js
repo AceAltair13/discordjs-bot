@@ -57,7 +57,7 @@ const helpEmbeds = {
         .setDescription("```\nDisplays avatar image of yourself or given user.\n```")
         .addField(
             "Usage",
-            "`$display`\nDisplays your avatar\n`$display <user>`\nDisplays avatar of given user"
+            "`$avatar`\nDisplays your avatar\n`$avatar <user>`\nDisplays avatar of given user\n`$avatar help`\nShows this message"
         )
         .setFooter("Avatar, yes."),
     chat: new MessageEmbed()
