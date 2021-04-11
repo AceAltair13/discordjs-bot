@@ -5,4 +5,4 @@ MongoDB is used for backend using the Mongoose library
 
 Contains a few fun commands and some minigames for your discord server. 
 
-(In Development, subject to change)
+### Ending development, shifting to python discord.py framewok. You are free to fork this bot and use it according to your will.
