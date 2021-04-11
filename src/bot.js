@@ -2,6 +2,7 @@
 import dotenv from "dotenv";
 dotenv.config();
 
+// Imports
 import { Client, MessageEmbed } from "discord.js";
 import chat from "./commands/fun/chat.js";
 import coinhunt from "./commands/minigames/coinhunt/coinhunt.js";
@@ -16,6 +17,7 @@ import getL from "./commands/fun/l.js";
 const client = new Client({
     partials: ["MESSAGE", "REACTION"],
 });
+
 const PREFIX = "$";
 
 client.on("ready", () => {
@@ -95,15 +97,6 @@ client.on("message", async (msg) => {
 
             case "l":
                 getL(msg, args);
-                break;
-            
-            // DiscordCraft
-            case "discordcraft":
-            case "dc":
-                const dcembed = new MessageEmbed()
-                .setImage("https://raw.githubusercontent.com/AceAltair13/MyAssets/master/discordjs-bot/discordrpg/cover.png")
-                .setFooter("Coming Soon");
-                msg.channel.send(dcembed);
                 break;
 
             // None of the above

@@ -1,5 +1,8 @@
+// Dotenv
 import dotenv from "dotenv";
 dotenv.config();
+
+// Imports
 import pkg from "mongoose";
 const { connect, Schema, model } = pkg;
 import { MessageEmbed } from "discord.js";
